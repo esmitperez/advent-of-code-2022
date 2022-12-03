@@ -1,4 +1,4 @@
-mod parser;
+mod day1;
 
 use std::env;
 
@@ -9,9 +9,8 @@ fn main() {
     let file_path = &args[1];
     
     println!("In file {}", file_path);
-    let elves = parser::parse(parser::read(file_path.to_owned()));
-    // println!("Elf with most is {:?} ", parser::who_most(elves));
-
-    println!("Top 3 Elves with most is {:?} ", parser::top_three(elves));
+    let elves = day1::parse(day1::read(file_path.to_owned())).to_owned();
+    println!("Elf with most is {:?} ", day1::who_most(&elves));
+    println!("Top 3 Elves with most is {:?} ", day1::top_three(&elves));
 
 }
