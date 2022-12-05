@@ -29,5 +29,6 @@ fn day2(){
     let contents = fs_utils::read(file_path.to_owned());
     
     
-    println!("Total Score as per guide {:?} ", day2::play_tournament(&mut day2::parse(contents.to_owned())));
+    println!("Total Score with Default Strategy {:?} ", day2::play_tournament(&mut day2::parse(contents.to_owned(), day2::ParsingStrategyType::DefaultStrategy)));
+    println!("Total Score with Correct Strategy {:?} ", day2::play_tournament(&mut day2::parse(contents.to_owned(), day2::ParsingStrategyType::CorrectStrategy)));
 }
