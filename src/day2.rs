@@ -168,7 +168,7 @@ impl Determinable for Round {
 
         let hand_shapes: Vec<&str> = self.source.split(" ").collect();
 
-        self.theirs = xdetermine_hand(hand_shapes[0]);
+        self.theirs = DefaultParsingStrategy{}.determine_hand(hand_shapes[0], self.theirs.shape);
         self.mine = match self.strategy {
             DefaultStrategy => {
                 DefaultParsingStrategy{}.determine_hand(hand_shapes[1], self.theirs.shape)
@@ -204,25 +204,6 @@ fn parse_round(source: String, parsing_strategy: ParsingStrategyType) -> Round {
     r.determine_shapes();
 
     r
-}
-
-fn xdetermine_hand(letter: &str) -> Hand {
-    use Shape::*;
-    return match letter {
-        "A" | "X" => Hand {
-            shape: Rock,
-            value: 1,
-        },
-        "B" | "Y" => Hand {
-            shape: Paper,
-            value: 2,
-        },
-        "C" | "Z" => Hand {
-            shape: Scissors,
-            value: 3,
-        },
-        _ => panic!("All letters expected to match"),
-    };
 }
 
 fn calculate_points(round: &Round) -> u8 {
