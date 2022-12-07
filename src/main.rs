@@ -38,6 +38,7 @@ fn day2(){
 fn day3(){
     header(&"3");
     let file_path = "data/3/input.txt";
-    day3::parse(file_path.to_owned());
+    // day3::part1(file_path.to_owned());
+    day3::part2(file_path.to_owned());
 
 }
