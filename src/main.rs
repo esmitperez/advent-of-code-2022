@@ -1,6 +1,7 @@
 mod day1;
 mod day2;
 mod day3;
+mod day4;
 mod fs_utils;
 
 fn main() {
@@ -8,8 +9,8 @@ fn main() {
     // dbg!(args);
     // day1();
     // day2();
-
-    day3();
+    // day3();
+    day4();
 }
 
 fn header(day: &str){
@@ -38,7 +39,12 @@ fn day2(){
 fn day3(){
     header(&"3");
     let file_path = "data/3/input.txt";
-    // day3::part1(file_path.to_owned());
+    day3::part1(file_path.to_owned());
     day3::part2(file_path.to_owned());
+}
 
+fn day4(){
+    header(&"4");
+    let file_path = "data/4/input.txt";
+    day4::part1(file_path.to_owned());
 }
