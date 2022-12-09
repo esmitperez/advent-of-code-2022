@@ -47,4 +47,5 @@ fn day4(){
     header(&"4");
     let file_path = "data/4/input.txt";
     day4::part1(file_path.to_owned());
+    day4::part2(file_path.to_owned());
 }
