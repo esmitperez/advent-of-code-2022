@@ -55,6 +55,7 @@ fn day4(){
 fn day5(){
     header(&"5");
     let file_path = "data/5/input.txt";
-    day5::part1(file_path.to_owned());
+    day5::move_crates(file_path.to_owned(), day5::CrateMoverModel::CrateMover9000);
+    day5::move_crates(file_path.to_owned(), day5::CrateMoverModel::CrateMover9001);
     // day4::part2(file_path.to_owned());
 }

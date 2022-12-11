@@ -3,7 +3,12 @@ use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 use std::ops::Index;
 
-pub fn part1(file_name: String) -> io::Result<String> {
+pub enum CrateMoverModel {
+    CrateMover9000,
+    CrateMover9001,
+}
+
+pub fn move_crates(file_name: String, crate_mover: CrateMoverModel) -> io::Result<String> {
     let file = File::open(file_name)?;
     let reader = BufReader::new(file);
 
@@ -39,7 +44,7 @@ pub fn part1(file_name: String) -> io::Result<String> {
             }
         });
 
-    while let Some(l) = rev_crate_levels.pop(){
+    while let Some(l) = rev_crate_levels.pop() {
         crate_levels.push(l);
     }
 
@@ -86,10 +91,28 @@ pub fn part1(file_name: String) -> io::Result<String> {
             (src_stack),
             (dst_stack)
         );
-        for _ in 0..how_many {
-            let item = stacks[src_stack].pop().unwrap();
-            println!("moving {item:?}");
-            stacks[dst_stack].push(item);
+
+        use CrateMoverModel::*;
+        match crate_mover {
+            CrateMover9000 => {
+                for _ in 0..how_many {
+                    let item = stacks[src_stack].pop().unwrap();
+                    println!("moving {item:?}");
+                    stacks[dst_stack].push(item);
+                }
+            }
+            CrateMover9001 => {
+                let mut all_at_once: Vec<String> = vec![];
+                for _ in 0..how_many {
+                    let item = stacks[src_stack].pop().unwrap();
+                    println!("moving {item:?}");
+                    all_at_once.push(item);
+                }
+
+                while let Some(item) = all_at_once.pop() {
+                    stacks[dst_stack].push(item)
+                }
+            }
         }
     }
 
@@ -110,13 +133,19 @@ mod tests {
 
     #[test]
     fn part1_works() {
-        let result = part1("data/5/tests/input.txt".to_owned());
+        let result = move_crates(
+            "data/5/tests/input.txt".to_owned(),
+            CrateMoverModel::CrateMover9000,
+        );
         assert_eq!(result.unwrap(), "CMZ");
     }
 
-    // #[test]
-    // fn part2_works() {
-    //     let result = part2("data/4/tests/input.txt".to_owned());
-    //     assert_eq!(result.unwrap(), 4);
-    // }
+    #[test]
+    fn part2_works() {
+        let result = move_crates(
+            "data/5/tests/input.txt".to_owned(),
+            CrateMoverModel::CrateMover9001,
+        );
+        assert_eq!(result.unwrap(), "MCD");
+    }
 }
