@@ -3,8 +3,10 @@ mod day2;
 mod day3;
 mod day4;
 mod day5;
+mod day6;
 mod fs_utils;
 
+#[allow(unused_macros)]
 fn main() {
     // let args: Vec<String> = env::args().collect();
     // dbg!(args);
@@ -12,7 +14,8 @@ fn main() {
     // day2();
     // day3();
     // day4();
-    day5();
+    // day5();
+    day6()
 }
 
 fn header(day: &str){
@@ -58,4 +61,9 @@ fn day5(){
     day5::move_crates(file_path.to_owned(), day5::CrateMoverModel::CrateMover9000);
     day5::move_crates(file_path.to_owned(), day5::CrateMoverModel::CrateMover9001);
     // day4::part2(file_path.to_owned());
+}
+
+fn day6(){
+    header(&"6");
+    day6::day6_main();
 }

@@ -1,7 +1,6 @@
 use regex::*;
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
-use std::ops::Index;
 
 pub enum CrateMoverModel {
     CrateMover9000,
