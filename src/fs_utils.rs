@@ -1,8 +1,6 @@
 
 pub fn read(file_path: String) -> String {
-    let contents =
-        std::fs::read_to_string(file_path).expect("Should have been able to read the file");
-    contents
+    std::fs::read_to_string(file_path).expect("Should have been able to read the file")
 }
 
 #[cfg(test)]

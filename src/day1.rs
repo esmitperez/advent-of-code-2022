@@ -5,7 +5,7 @@ use std::collections::BinaryHeap;
 pub fn parse(contents: String) -> HashMap<String, u32> {
     let mut scores = HashMap::new();
 
-    let lines = contents.split("\n");
+    let lines = contents.split('\n');
 
     let mut k = 1;
     let mut v:u32 = 0;
@@ -13,7 +13,7 @@ pub fn parse(contents: String) -> HashMap<String, u32> {
         // println!("Parsing line {:?}, {:?}", k, l);
 
         if l.is_empty() {
-            k = k+1;
+            k +=1;
             v = 0;
             continue 'again;
         }
@@ -21,7 +21,7 @@ pub fn parse(contents: String) -> HashMap<String, u32> {
         // dbg!(k);
         
         let qty:u32 = l.parse().unwrap();
-        v = v + qty;
+        v += qty;
 
         scores.insert(k.to_string(), v);
     }
@@ -32,7 +32,7 @@ pub fn parse(contents: String) -> HashMap<String, u32> {
 pub fn who_most(elves: &HashMap<String, u32>) -> u32 {
     let mut most:u32 = 0;
 
-    for (_k,v) in elves{
+    for v in elves.values(){
         if v > &most {
             most = *v;
         }
@@ -45,18 +45,15 @@ pub fn top_three(elves: &HashMap<String, u32>) -> u32 {
 
     let mut heap:BinaryHeap<u32> = BinaryHeap::new();
 
-    for (_k, v) in elves {
+    for v in elves.values() {
         heap.push(*v);
     }
 
     let mut total = 0;
 
     for _i in 0..3 {
-        match heap.pop() {
-            Some(v) => {
-                total = total + v;
-            },
-            None => {}
+        if let Some(v) = heap.pop() {
+            total += v;
         }
     }
 

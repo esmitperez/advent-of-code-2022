@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{HashSet};
 use std::fs::File;
 use std::io::{self, prelude::*, BufReader};
 
@@ -7,15 +7,12 @@ pub fn part1(file_name: String) -> io::Result<u32> {
     let reader = BufReader::new(file);
     let priority_sum = reader
         .lines()
-        .filter(|line| line.is_ok())
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .map(|line| {
-            let middle = (line.len() / 2);
+            let middle = line.len() / 2;
             let (compartment1, compartment2) = line.split_at(middle);
             let mut chars1 = compartment1.chars().collect::<Vec<char>>();
             let mut chars2 = compartment2.chars().collect::<Vec<char>>();
-            // println!("C1 {:?}", chars1);
-            // println!("C2 {:?}", chars2);
 
             chars1.sort();
             chars1.dedup();
@@ -42,9 +39,7 @@ pub fn part1(file_name: String) -> io::Result<u32> {
                 letter as u32 - 'a' as u32
             };
             println!("Processing letter {:?}, {:?}", letter, (value + 1));
-            return acc + value + 1;
-            // return acc + (letter as u32)
-            // acc
+            acc + value + 1
         });
     println!("Priority Sum is {:?}", priority_sum);
 
@@ -56,8 +51,7 @@ pub fn part2(file_name: String) -> io::Result<u32> {
     let reader = BufReader::new(file);
     let contents = reader
         .lines()
-        .filter(|line| line.is_ok())
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .collect::<Vec<String>>();
 
     let mut groups: Vec<Vec<&String>> = vec![];
@@ -67,7 +61,7 @@ pub fn part2(file_name: String) -> io::Result<u32> {
     let mut counter = 0;
 
     while &counter < l {
-        let mut g: Vec<&String> = vec![
+        let g: Vec<&String> = vec![
             iter.next().unwrap(),
             iter.next().unwrap(),
             iter.next().unwrap(),
@@ -76,8 +70,6 @@ pub fn part2(file_name: String) -> io::Result<u32> {
         counter += 3;
         groups.push(g);
     }
-
-    let mut total = 0;
 
     let priority_sum = groups
         .iter()

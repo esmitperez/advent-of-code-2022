@@ -47,11 +47,11 @@ struct DefaultParsingStrategy {}
 struct CorrectParsingStrategy {}
 
 impl DeterminesHand for DefaultParsingStrategy {
-    fn determine_hand(&self, letter: &str, shape: Shape) -> Hand {
+    fn determine_hand(&self, letter: &str, _shape: Shape) -> Hand {
         println!("Running using DEFAULT strategy");
 
         use Shape::*;
-        return match letter {
+        match letter {
             "A" | "X" => Hand {
                 shape: Rock,
                 value: 1,
@@ -65,7 +65,7 @@ impl DeterminesHand for DefaultParsingStrategy {
                 value: 3,
             },
             _ => panic!("All letters expected to match"),
-        };
+        }
     }
 }
 impl DeterminesHand for CorrectParsingStrategy {
@@ -166,7 +166,7 @@ impl Determinable for Round {
     fn determine_shapes(&mut self) -> &mut Round {
         use ParsingStrategyType::*;
 
-        let hand_shapes: Vec<&str> = self.source.split(" ").collect();
+        let hand_shapes: Vec<&str> = self.source.split(' ').collect();
 
         self.theirs = DefaultParsingStrategy{}.determine_hand(hand_shapes[0], self.theirs.shape);
         self.mine = match self.strategy {
@@ -228,7 +228,7 @@ fn determine_round_result(round: &Round) -> RoundResult {
 
     match mine {
         Rock => {
-            return match theirs {
+            match theirs {
                 Paper => Lose,
                 Scissors => Win,
                 Rock => Draw,
@@ -236,7 +236,7 @@ fn determine_round_result(round: &Round) -> RoundResult {
             }
         }
         Paper => {
-            return match theirs {
+            match theirs {
                 Paper => Draw,
                 Scissors => Lose,
                 Rock => Win,
@@ -244,7 +244,7 @@ fn determine_round_result(round: &Round) -> RoundResult {
             }
         }
         Scissors => {
-            return match theirs {
+            match theirs {
                 Paper => Win,
                 Scissors => Draw,
                 Rock => Lose,
@@ -256,11 +256,10 @@ fn determine_round_result(round: &Round) -> RoundResult {
 }
 
 pub fn parse(contents: String, parsing_type: ParsingStrategyType) -> Vec<Round> {
-    use ParsingStrategyType::*;
 
     let mut rounds = Vec::new();
 
-    let lines = contents.split("\n");
+    let lines = contents.split('\n');
     for l in lines {
         let round = parse_round(l.to_string(), parsing_type);
         rounds.push(round);
@@ -269,7 +268,7 @@ pub fn parse(contents: String, parsing_type: ParsingStrategyType) -> Vec<Round> 
     rounds
 }
 
-pub fn play_tournament(rounds: &mut Vec<Round>) -> u16 {
+pub fn play_tournament(rounds: &mut [Round]) -> u16 {
     // find how to .map this
     let points = rounds.iter_mut().fold(0, |acc, r| {
         r.play();
@@ -279,7 +278,7 @@ pub fn play_tournament(rounds: &mut Vec<Round>) -> u16 {
 
     println!("Points {:?}", points);
 
-    u16::from(points)
+    points
 }
 
 #[cfg(test)]

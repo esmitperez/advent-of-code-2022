@@ -1,18 +1,12 @@
-use queues::{Queue, queue, IsQueue};
-use regex::*;
 use std::collections::HashSet;
-use std::fs::File;
-use std::io::{self, prelude::*, BufReader};
+
 
 pub fn start_of_packet_marker(window_size: u32, datastream: &str) -> u32 {
     let data = datastream.chars().collect::<Vec<char>>();
-    let mut hash: HashSet<char> = HashSet::new();
-
-    let mut queue:Queue<char> = queue![];
 
     let mut pos = 0;
     
-    let mut iter = data.windows(window_size as usize);
+    let iter = data.windows(window_size as usize);
     for w in iter {
         let mut hash: HashSet<char> = HashSet::new();
         let has_dups = w.iter().fold(true, |lacks_dups, c| {

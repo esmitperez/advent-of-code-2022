@@ -19,15 +19,14 @@ pub fn move_crates(file_name: String, crate_mover: CrateMoverModel) -> io::Resul
 
     reader
         .lines()
-        .filter(|line| line.is_ok())
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .filter(|line| !line.is_empty())
         .for_each(|line| {
             println!("Parsing line -> {line:?}");
             // load
             if line.contains('[') {
                 println!("Pushed line");
-                rev_crate_levels.push(line.to_owned());
+                rev_crate_levels.push(line);
             } else if line.starts_with(' ') {
                 levels_line = line;
                 how_many_crates = levels_line
@@ -39,7 +38,7 @@ pub fn move_crates(file_name: String, crate_mover: CrateMoverModel) -> io::Resul
                 println!("how_many_crates = {how_many_crates:?}");
             } else if line.starts_with('m') {
                 println!("Pushed move");
-                moves.push(line.to_owned());
+                moves.push(line);
             }
         });
 
@@ -56,7 +55,7 @@ pub fn move_crates(file_name: String, crate_mover: CrateMoverModel) -> io::Resul
     for i in 0..how_many_crates {
         println!("Processing crate {i:?}");
         let mut current_stack: Vec<String> = vec![];
-        let mut iter = crate_levels.iter_mut();
+        let iter = crate_levels.iter_mut();
 
         for current_level in iter {
             println!("Finding {i:?} in {current_level:?}");
@@ -121,7 +120,6 @@ pub fn move_crates(file_name: String, crate_mover: CrateMoverModel) -> io::Resul
         .reduce(|acc, letter| Some(acc.unwrap() + &letter.unwrap()));
 
     let value = crates_on_top.unwrap().unwrap();
-    println!("crates_on_top = {value:}");
 
     Ok(value)
 }

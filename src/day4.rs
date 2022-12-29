@@ -6,12 +6,11 @@ pub fn part1(file_name: String) -> io::Result<usize> {
     let reader = BufReader::new(file);
     let how_many_pairs = reader
         .lines()
-        .filter(|line| line.is_ok())
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .map(|line| {
-            let ranges = line.split(",").collect::<Vec<&str>>();
-            let range1 = ranges[0].split("-").collect::<Vec<&str>>();;
-            let range2 =  ranges[1].split("-").collect::<Vec<&str>>();;
+            let ranges = line.split(',').collect::<Vec<&str>>();
+            let range1 = ranges[0].split('-').collect::<Vec<&str>>();
+            let range2 =  ranges[1].split('-').collect::<Vec<&str>>();
 
             let r1_start = range1[0].parse::<i32>().unwrap();
             let r1_end = range1[1].parse::<i32>().unwrap();
@@ -42,12 +41,11 @@ pub fn part2(file_name: String) -> io::Result<usize> {
     let reader = BufReader::new(file);
     let how_many_pairs = reader
         .lines()
-        .filter(|line| line.is_ok())
-        .map(|line| line.unwrap())
+        .filter_map(|line| line.ok())
         .map(|line| {
-            let ranges = line.split(",").collect::<Vec<&str>>();
-            let range1 = ranges[0].split("-").collect::<Vec<&str>>();;
-            let range2 =  ranges[1].split("-").collect::<Vec<&str>>();;
+            let ranges = line.split(',').collect::<Vec<&str>>();
+            let range1 = ranges[0].split('-').collect::<Vec<&str>>();
+            let range2 =  ranges[1].split('-').collect::<Vec<&str>>();
 
             let r1_start = range1[0].parse::<i32>().unwrap();
             let r1_end = range1[1].parse::<i32>().unwrap();
@@ -57,7 +55,7 @@ pub fn part2(file_name: String) -> io::Result<usize> {
 
             println!("Evaluating {r1_start:?}-{r1_end:?}, {r2_start:?}-{r2_end:?}");
         
-            if (r1_start <= r2_end && r2_start <= r1_end) {
+            if r1_start <= r2_end && r2_start <= r1_end {
                 println!("Overlaps YES");
                 Ok(())
             } else {
